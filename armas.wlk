@@ -37,7 +37,7 @@ object casco{
 }
 
 object escudo{ 
-  method poderArmadura(gladiador)= 5+gladiador.destreza()
+  method poderArmadura(gladiador)= 5+gladiador.destreza() * 0.10
 
 }
 

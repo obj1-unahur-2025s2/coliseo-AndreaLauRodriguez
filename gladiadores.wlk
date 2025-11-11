@@ -1,4 +1,4 @@
-
+import grupos.*
 
 /*.
 
@@ -47,18 +47,26 @@ class Mirmillon{
     method poderDeAtaque(){
        return arma.poderDeAtaque()+fuerza
     }
-    method recibirAtaque(unAtaque){
-      unidadesDeVida = unidadesDeVida - unAtaque
+
+    method ataca(atacado){
+      atacado.recibirAtaque(self.danio(atacado))
     }
 
-    method danio(unGladiador){
-       self.poderDeAtaque() - unGladiador.defensa()
+    method danio(atacado){
+      return self.poderDeAtaque() - atacado.defensa()
     }
-    method atacar(unGladiador){
-       var daniar =  0
-     // TERMINAR 
-       unGladiador.recibirAtaque()
-    }
+  
+   method recibirAtaque(danio) {unidadesDeVida = unidadesDeVida - danio}
+  method poderAtaque() = arma.poder() + fuerza
+
+  method crearGrupo(unGladiador){
+        const grupo = new Grupo(nombre= "Mirmillolandia")
+        grupo.agregarMiembro(self)
+        grupo.agregarMiembro(unGladiador)
+  }
+ method recuperaUnidadesDeVida(unaCantidad) {
+         unidadesDeVida = unaCantidad
+ }
 
 }
 
@@ -85,15 +93,38 @@ tanto daño como la diferencia
 
 
 class Dimachaerus {
-      var arma
+      const arma = []
       var destreza
       var  unidadesDeVida = 100
       method fuerza ()= 10
       method arma() = arma
       method destreza() = destreza
       method unidadesDeVida() = unidadesDeVida
+      method agregarUnArma(unArma){
+        arma.add(unArma)
+      }
+      method eliminarArma(unArma){
+         arma.remove(unArma)
+      }
+      method ataca(atacado){
+    atacado.recibirAtaque(self.danio(atacado)) 
+    destreza = destreza + 1
+  }
 
-    
+  method danio(atacado) = self.poderDeAtaque()- atacado.defensa()
+
+  method recibirAtaque(danio) {unidadesDeVida = unidadesDeVida - danio}
+  method poderDeAtaque() = self.fuerza() + arma.sum({ a => a.poder() })
+  method defensa()= destreza / 2
+  method crearGrupo(unGladiador){
+    const nombre = "D-" + (self.poderDeAtaque() + unGladiador.poderDeAtaque()).toString()
+    const grupo = new Grupo(nombre= nombre)
+    grupo.agregarMiembro(self)
+    grupo.agregarMiembro(unGladiador)
+  }
+method recuperaUnidadesDeVida(unaCantidad) {
+         unidadesDeVida = unaCantidad
+ }
     }
 
 
